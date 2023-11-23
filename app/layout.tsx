@@ -4,6 +4,7 @@ import './globals.css'
 
 import { ThemeProvider } from '@/providers/theme-provider'
 import { ToastProvider } from '@/providers/toast-provider'
+import SessionAuthProvider from '@/providers/session-auth-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,14 +21,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
-          <ToastProvider />
-          {children}
-        </ThemeProvider>
+        <SessionAuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+          >
+            <ToastProvider />
+            {children}
+          </ThemeProvider>
+        </SessionAuthProvider>
       </body>
     </html>
   )

@@ -14,7 +14,7 @@ const defaultDashboardContext: DashboardContextType = {
 
 export const SidebarContext = createContext<DashboardContextType>(defaultDashboardContext);
 
-const DashboardProvider = ({
+const SidebarProvider = ({
   children,
 }: {
   children: ReactNode
@@ -34,4 +34,4 @@ const DashboardProvider = ({
   );
 }
 
-export default DashboardProvider
+export default SidebarProvider

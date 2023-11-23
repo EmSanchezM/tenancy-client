@@ -14,43 +14,43 @@ export function MainNav() {
       href: '/',
       label: 'Overview',
       active: pathname === '/',
-      icon: 'Home'
+      icon: <Home className="text-2xl" />
     },
     {
       href: '/customers',
       label: 'Clientes',
       active: pathname === '/customers',
-      icon: 'Home'
+      icon: <Home className="text-2xl" />
     },
     {
       href: '/employees',
       label: 'Empleados',
       active: pathname === '/employees',
-      icon: 'Home'
+      icon: <Home className="text-2xl" />
     },
     {
-      href: '/categories',
-      label: 'Categorias',
-      active: pathname === '/categories',
-      icon: 'Home'
+      href: '/suppliers',
+      label: 'Proveedores',
+      active: pathname === '/suppliers',
+      icon: <Home className="text-2xl" />
     },
     {
       href: '/products',
       label: 'Products',
       active: pathname === '/products',
-      icon: 'Home'
+      icon: <Home className="text-2xl" />
     },
     {
       href: '/orders',
       label: 'Orders',
       active: pathname === '/orders',
-      icon: 'Home'
+      icon: <Home className="text-2xl" />
     },
     {
       href: '/settings',
       label: 'Settings',
       active: pathname === '/settings',
-      icon: 'Home'
+      icon: <Home className="text-2xl" />
     },
   ]
 
@@ -63,10 +63,10 @@ export function MainNav() {
               href={route.href}
               className={cn(
                 'flex items-center gap-4 hover:text-gray-100 transition-colors',
-                route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
+                route.active ? 'text-white' : 'text-muted-foreground'
               )}
             >
-              <Home className="text-2xl" />
+              {route.icon}
               {route.label}
             </Link>
           </li>
