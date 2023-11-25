@@ -1,23 +1,24 @@
 import { FC } from 'react'
+import { Control } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { Input } from '../ui/input';
+import { DatePicker } from '../ui/date-picker';
 
-interface InputTextProps {
-  control: any;
+interface InputDateProps {
+  control: Control<any>;
   label: string;
   name: string;
 }
 
-const InputText: FC<InputTextProps> = ({ control, label, name }) => {
+const InputDate: FC<InputDateProps> = ({ control, label, name }) => {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className='flex flex-col'>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type="text" {...field} />
+            <DatePicker {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -26,4 +27,5 @@ const InputText: FC<InputTextProps> = ({ control, label, name }) => {
   )
 }
 
-export default InputText
+
+export default InputDate

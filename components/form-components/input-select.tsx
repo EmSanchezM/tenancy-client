@@ -1,9 +1,10 @@
 import { FC } from 'react'
+import { Control } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
 interface InputSelectProps {
-  control: any;
+  control: Control<any>;
   label: string;
   name: string;
   items: { id: string; name: string; }[]
@@ -20,7 +21,7 @@ const InputSelect: FC<InputSelectProps> = ({ control, label, name, items }) => {
           <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger>
-                <SelectValue defaultValue={field.value} placeholder="Select a color" />
+                <SelectValue defaultValue={field.value} placeholder={`Selecciona un ${label.toLowerCase()}`} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>

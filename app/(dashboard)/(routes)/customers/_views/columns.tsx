@@ -22,7 +22,7 @@ export const columns: ColumnDef<CustomerColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Date",
+    header: "Fecha de creación",
   },
   {
     id: "actions",

@@ -1,5 +1,6 @@
 import { apiPrivate, errorHandler } from "../api.service";
-import { CreateEmployeeDto, Employee } from "@/lib/models/employee.model";
+import { Employee } from "@/lib/models/employee.model";
+import { EmployeeFormValues } from "@/lib/validation-schemes/employee.schema";
 
 const getAllEmployees = async () => {
   try {
@@ -11,11 +12,11 @@ const getAllEmployees = async () => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { success: false, error: errorData.message };
+    throw { success: false, errorMessage: errorData.message };
   }
 };
 
-const createEmployee = async (payload: CreateEmployeeDto) => {
+const createEmployee = async (payload: EmployeeFormValues) => {
   try {
     const { data } = await apiPrivate.post("employees", payload);
 
@@ -25,13 +26,16 @@ const createEmployee = async (payload: CreateEmployeeDto) => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { ok: false, error: errorData.message };
+    throw { ok: false, errorMessage: errorData.message };
   }
 };
 
-const updateEmployee = async (payload: Partial<CreateEmployeeDto>) => {
+const updateEmployee = async (
+  employeeID: string,
+  payload: EmployeeFormValues
+) => {
   try {
-    const { data } = await apiPrivate.put("employees", payload);
+    const { data } = await apiPrivate.patch(`employees/${employeeID}`, payload);
 
     return {
       ok: true,
@@ -39,7 +43,7 @@ const updateEmployee = async (payload: Partial<CreateEmployeeDto>) => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { ok: false, error: errorData.message };
+    throw { ok: false, errorMessage: errorData.message };
   }
 };
 
@@ -53,7 +57,7 @@ const deleteEmployee = async (employeeID: string) => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { ok: false, error: errorData.message };
+    throw { ok: false, errorMessage: errorData.message };
   }
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ interface CellActionProps {
   data: EmployeeColumn;
 }
 
-export const CellAction: React.FC<CellActionProps> = ({
+export const CellAction: FC<CellActionProps> = ({
   data,
 }) => {
   const router = useRouter();

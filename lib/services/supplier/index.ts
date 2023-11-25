@@ -11,7 +11,7 @@ const getAllSuppliers = async () => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { success: false, error: errorData.message };
+    throw { success: false, errorMessage: errorData.message };
   }
 };
 
@@ -25,13 +25,19 @@ const createSupplier = async (payload: CreateSupplierDto) => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { ok: false, error: errorData.message };
+    throw { ok: false, errorMessage: errorData.message };
   }
 };
 
-const updateSupplier = async (payload: Partial<CreateSupplierDto>) => {
+const updateSupplier = async (
+  supplierID: string,
+  payload: Partial<CreateSupplierDto>
+) => {
   try {
-    const { data } = await apiPrivate.put<Supplier>("suppliers", payload);
+    const { data } = await apiPrivate.patch<Supplier>(
+      `suppliers/${supplierID}`,
+      payload
+    );
 
     return {
       ok: true,
@@ -39,7 +45,7 @@ const updateSupplier = async (payload: Partial<CreateSupplierDto>) => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { ok: false, error: errorData.message };
+    throw { ok: false, errorMessage: errorData.message };
   }
 };
 
@@ -55,7 +61,7 @@ const deleteSupplier = async (supplierID: string) => {
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
-    throw { ok: false, error: errorData.message };
+    throw { ok: false, errorMessage: errorData.message };
   }
 };
 
