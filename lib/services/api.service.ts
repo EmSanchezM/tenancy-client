@@ -26,7 +26,7 @@ apiPrivate.interceptors.request.use(async (config) => {
       token = cookies().get("next-auth.session-token")?.value;
 
     const decoded = jwt.verify(token, process.env.NEXTAUTH_SECRET);
-    console.log("token server", decoded);
+
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
