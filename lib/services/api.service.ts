@@ -35,7 +35,7 @@ apiPrivate.interceptors.request.use(async (config) => {
       .split("; ")
       .find((row) => row.startsWith("next-auth.session-token="))
       ?.split("=")[1];
-    console.log("token", token);
+
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
