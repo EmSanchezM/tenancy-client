@@ -1,4 +1,6 @@
 import axios, { AxiosError } from "axios";
+import { getSession } from "next-auth/react";
+
 import { codeMessage } from "../constants/codeMessage";
 import { HttpExceptionBody } from "../models/error-http.model";
 
@@ -20,22 +22,9 @@ export const apiPrivate = axios.create({
 });
 
 apiPrivate.interceptors.request.use(async (config) => {
-  if (isServer) {
-    const { cookies } = await import("next/headers"),
-      token = cookies().get("token")?.value;
-
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-  } else {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("token="))
-      ?.split("=")[1];
-    console.log("token client", token);
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
+  const session = await getSession();
+  if (session) {
+    config.headers["Authorization"] = `Bearer ${session?.user.token}`;
   }
 
   return config;
