@@ -12,7 +12,6 @@ import { redirect } from "next/navigation";
 const Header = () => {
   const { toggleSidebar } = useContext(SidebarContext)
   const { data: session } = useSession();
-  console.log('SESSION', session)
 
   if (session === null) redirect('/auth/sign-in')
 

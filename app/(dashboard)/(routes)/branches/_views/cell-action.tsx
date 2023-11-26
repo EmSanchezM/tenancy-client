@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AlertModal } from "@/components/ui/alert-dialog";
 
-import { SupplierColumn } from "./columns";
-import { deleteSupplier } from "@/lib/services/supplier";
+import { BranchColumn } from "./columns";
+import { deleteCustomer } from "@/lib/services/customers";
 
 interface CellActionProps {
-  data: SupplierColumn;
+  data: BranchColumn;
 }
 
 export const CellAction: FC<CellActionProps> = ({
@@ -32,8 +32,8 @@ export const CellAction: FC<CellActionProps> = ({
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await deleteSupplier(data.id);
-      toast.success('Proveedor eliminado.');
+      await deleteCustomer(data.id);
+      toast.success('Sucursal eliminada.');
       router.refresh();
     } catch (error) {
       toast.error('Error en el servidor.');
@@ -61,7 +61,7 @@ export const CellAction: FC<CellActionProps> = ({
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/suppliers/${data.id}`)}
+            onClick={() => router.push(`/branches/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Actualizar
           </DropdownMenuItem>

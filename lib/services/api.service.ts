@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-const jwt = require("jsonwebtoken");
 import { codeMessage } from "../constants/codeMessage";
 import { HttpExceptionBody } from "../models/error-http.model";
 
@@ -23,9 +22,7 @@ export const apiPrivate = axios.create({
 apiPrivate.interceptors.request.use(async (config) => {
   if (isServer) {
     const { cookies } = await import("next/headers"),
-      token = cookies().get("next-auth.session-token")?.value;
-
-    const decoded = jwt.verify(token, process.env.NEXTAUTH_SECRET);
+      token = cookies().get("token")?.value;
 
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -33,9 +30,9 @@ apiPrivate.interceptors.request.use(async (config) => {
   } else {
     const token = document.cookie
       .split("; ")
-      .find((row) => row.startsWith("next-auth.session-token="))
+      .find((row) => row.startsWith("token="))
       ?.split("=")[1];
-
+    console.log("token client", token);
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }

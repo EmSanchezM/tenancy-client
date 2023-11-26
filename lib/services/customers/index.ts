@@ -16,9 +16,9 @@ const getAllCustomers = async () => {
   }
 };
 
-const getCustomerById = async (customerID: string) => {
+const getCustomerById = async (customerId: string) => {
   try {
-    const { data } = await apiPrivate.get<Customer>(`customers/${customerID}`);
+    const { data } = await apiPrivate.get<Customer>(`customers/${customerId}`);
 
     return {
       ok: true,
@@ -45,12 +45,12 @@ const createCustomer = async (payload: CustomerFormValues) => {
 };
 
 const updateCustomer = async (
-  customerID: string,
+  customerId: string,
   payload: CustomerFormValues
 ) => {
   try {
     const { data } = await apiPrivate.patch<Customer>(
-      `customers/${customerID}`,
+      `customers/${customerId}`,
       payload
     );
 
@@ -64,10 +64,10 @@ const updateCustomer = async (
   }
 };
 
-const deleteCustomer = async (customerID: string) => {
+const deleteCustomer = async (customerId: string) => {
   try {
     const { data } = await apiPrivate.delete<Customer>(
-      `customers/${customerID}`
+      `customers/${customerId}`
     );
 
     return {

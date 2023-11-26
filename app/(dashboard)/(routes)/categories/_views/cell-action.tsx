@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AlertModal } from "@/components/ui/alert-dialog";
 
-import { SupplierColumn } from "./columns";
-import { deleteSupplier } from "@/lib/services/supplier";
+import { CategoryColumn } from "./columns";
+import { deleteCategory } from "@/lib/services/categories";
 
 interface CellActionProps {
-  data: SupplierColumn;
+  data: CategoryColumn;
 }
 
 export const CellAction: FC<CellActionProps> = ({
@@ -32,8 +32,8 @@ export const CellAction: FC<CellActionProps> = ({
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await deleteSupplier(data.id);
-      toast.success('Proveedor eliminado.');
+      await deleteCategory(data.id);
+      toast.success('Categoria eliminada.');
       router.refresh();
     } catch (error) {
       toast.error('Error en el servidor.');
@@ -61,7 +61,7 @@ export const CellAction: FC<CellActionProps> = ({
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/suppliers/${data.id}`)}
+            onClick={() => router.push(`/categories/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Actualizar
           </DropdownMenuItem>

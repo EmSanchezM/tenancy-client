@@ -1,10 +1,10 @@
-import { Supplier } from "@/lib/models/supplier.model";
 import { apiPrivate, errorHandler } from "../api.service";
-import { SupplierFormValues } from "@/lib/validation-schemes/supplier.schema";
+import { Product } from "@/lib/models/product.model";
+import { ProductFormValues } from "@/lib/validation-schemes/product.schema";
 
-const getAllSuppliers = async () => {
+const getAllProducts = async () => {
   try {
-    const { data } = await apiPrivate.get<Supplier[]>("suppliers");
+    const { data } = await apiPrivate.get<Product[]>("products");
 
     return {
       ok: true,
@@ -16,9 +16,9 @@ const getAllSuppliers = async () => {
   }
 };
 
-const getSupplierById = async (supplierId: string) => {
+const getProductById = async (productId: string) => {
   try {
-    const { data } = await apiPrivate.get<Supplier>(`suppliers/${supplierId}`);
+    const { data } = await apiPrivate.get<Product>(`products/${productId}`);
 
     return {
       ok: true,
@@ -30,9 +30,9 @@ const getSupplierById = async (supplierId: string) => {
   }
 };
 
-const createSupplier = async (payload: SupplierFormValues) => {
+const createProduct = async (payload: ProductFormValues) => {
   try {
-    const { data } = await apiPrivate.post<Supplier>("suppliers", payload);
+    const { data } = await apiPrivate.post("products", payload);
 
     return {
       ok: true,
@@ -44,15 +44,9 @@ const createSupplier = async (payload: SupplierFormValues) => {
   }
 };
 
-const updateSupplier = async (
-  supplierId: string,
-  payload: Partial<SupplierFormValues>
-) => {
+const updateProduct = async (productId: string, payload: ProductFormValues) => {
   try {
-    const { data } = await apiPrivate.patch<Supplier>(
-      `suppliers/${supplierId}`,
-      payload
-    );
+    const { data } = await apiPrivate.patch(`products/${productId}`, payload);
 
     return {
       ok: true,
@@ -64,11 +58,9 @@ const updateSupplier = async (
   }
 };
 
-const deleteSupplier = async (supplierId: string) => {
+const deleteProduct = async (productId: string) => {
   try {
-    const { data } = await apiPrivate.delete<Supplier>(
-      `suppliers/${supplierId}`
-    );
+    const { data } = await apiPrivate.delete(`products/${productId}`);
 
     return {
       ok: true,
@@ -81,9 +73,9 @@ const deleteSupplier = async (supplierId: string) => {
 };
 
 export {
-  getAllSuppliers,
-  getSupplierById,
-  createSupplier,
-  updateSupplier,
-  deleteSupplier,
+  getAllProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 };

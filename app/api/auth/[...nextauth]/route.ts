@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { Login } from "@/lib/services/auth";
 
-const handler: NextAuthOptions = NextAuth({
+const options: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -45,6 +45,8 @@ const handler: NextAuthOptions = NextAuth({
     signIn: "/auth/sign-in",
   },
   debug: process.env.NODE_ENV === "development",
-});
+};
+
+const handler = NextAuth(options);
 
 export { handler as GET, handler as POST };

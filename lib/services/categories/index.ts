@@ -1,10 +1,10 @@
-import { Supplier } from "@/lib/models/supplier.model";
 import { apiPrivate, errorHandler } from "../api.service";
-import { SupplierFormValues } from "@/lib/validation-schemes/supplier.schema";
+import { Category } from "@/lib/models/category.model";
+import { CategoryFormValues } from "@/lib/validation-schemes/category.schema";
 
-const getAllSuppliers = async () => {
+const getAllCategories = async () => {
   try {
-    const { data } = await apiPrivate.get<Supplier[]>("suppliers");
+    const { data } = await apiPrivate.get<Category[]>("categories");
 
     return {
       ok: true,
@@ -16,9 +16,9 @@ const getAllSuppliers = async () => {
   }
 };
 
-const getSupplierById = async (supplierId: string) => {
+const getCategoryById = async (categoryId: string) => {
   try {
-    const { data } = await apiPrivate.get<Supplier>(`suppliers/${supplierId}`);
+    const { data } = await apiPrivate.get<Category>(`categories/${categoryId}`);
 
     return {
       ok: true,
@@ -30,9 +30,9 @@ const getSupplierById = async (supplierId: string) => {
   }
 };
 
-const createSupplier = async (payload: SupplierFormValues) => {
+const createCategory = async (payload: CategoryFormValues) => {
   try {
-    const { data } = await apiPrivate.post<Supplier>("suppliers", payload);
+    const { data } = await apiPrivate.post<Category>("categories", payload);
 
     return {
       ok: true,
@@ -44,13 +44,13 @@ const createSupplier = async (payload: SupplierFormValues) => {
   }
 };
 
-const updateSupplier = async (
-  supplierId: string,
-  payload: Partial<SupplierFormValues>
+const updateCategory = async (
+  categoryId: string,
+  payload: Partial<CategoryFormValues>
 ) => {
   try {
-    const { data } = await apiPrivate.patch<Supplier>(
-      `suppliers/${supplierId}`,
+    const { data } = await apiPrivate.patch<Category>(
+      `categories/${categoryId}`,
       payload
     );
 
@@ -64,10 +64,10 @@ const updateSupplier = async (
   }
 };
 
-const deleteSupplier = async (supplierId: string) => {
+const deleteCategory = async (categoryId: string) => {
   try {
-    const { data } = await apiPrivate.delete<Supplier>(
-      `suppliers/${supplierId}`
+    const { data } = await apiPrivate.delete<Category>(
+      `categories/${categoryId}`
     );
 
     return {
@@ -81,9 +81,9 @@ const deleteSupplier = async (supplierId: string) => {
 };
 
 export {
-  getAllSuppliers,
-  getSupplierById,
-  createSupplier,
-  updateSupplier,
-  deleteSupplier,
+  getAllCategories,
+  getCategoryById,
+  createCategory,
+  updateCategory,
+  deleteCategory,
 };

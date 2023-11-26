@@ -1,10 +1,10 @@
-import { Supplier } from "@/lib/models/supplier.model";
 import { apiPrivate, errorHandler } from "../api.service";
-import { SupplierFormValues } from "@/lib/validation-schemes/supplier.schema";
+import { Branch } from "@/lib/models/branch.model";
+import { BranchFormValues } from "@/lib/validation-schemes/branch.schema";
 
-const getAllSuppliers = async () => {
+const getAllBranches = async () => {
   try {
-    const { data } = await apiPrivate.get<Supplier[]>("suppliers");
+    const { data } = await apiPrivate.get<Branch[]>("branches");
 
     return {
       ok: true,
@@ -16,9 +16,9 @@ const getAllSuppliers = async () => {
   }
 };
 
-const getSupplierById = async (supplierId: string) => {
+const getBranchById = async (branchId: string) => {
   try {
-    const { data } = await apiPrivate.get<Supplier>(`suppliers/${supplierId}`);
+    const { data } = await apiPrivate.get<Branch>(`branches/${branchId}`);
 
     return {
       ok: true,
@@ -30,9 +30,9 @@ const getSupplierById = async (supplierId: string) => {
   }
 };
 
-const createSupplier = async (payload: SupplierFormValues) => {
+const createBranch = async (payload: BranchFormValues) => {
   try {
-    const { data } = await apiPrivate.post<Supplier>("suppliers", payload);
+    const { data } = await apiPrivate.post<Branch>("branches", payload);
 
     return {
       ok: true,
@@ -44,13 +44,10 @@ const createSupplier = async (payload: SupplierFormValues) => {
   }
 };
 
-const updateSupplier = async (
-  supplierId: string,
-  payload: Partial<SupplierFormValues>
-) => {
+const updateBranch = async (branchId: string, payload: BranchFormValues) => {
   try {
-    const { data } = await apiPrivate.patch<Supplier>(
-      `suppliers/${supplierId}`,
+    const { data } = await apiPrivate.patch<Branch>(
+      `branches/${branchId}`,
       payload
     );
 
@@ -64,11 +61,9 @@ const updateSupplier = async (
   }
 };
 
-const deleteSupplier = async (supplierId: string) => {
+const deleteBranch = async (branchId: string) => {
   try {
-    const { data } = await apiPrivate.delete<Supplier>(
-      `suppliers/${supplierId}`
-    );
+    const { data } = await apiPrivate.delete(`branches/${branchId}`);
 
     return {
       ok: true,
@@ -81,9 +76,9 @@ const deleteSupplier = async (supplierId: string) => {
 };
 
 export {
-  getAllSuppliers,
-  getSupplierById,
-  createSupplier,
-  updateSupplier,
-  deleteSupplier,
+  getAllBranches,
+  getBranchById,
+  createBranch,
+  updateBranch,
+  deleteBranch,
 };

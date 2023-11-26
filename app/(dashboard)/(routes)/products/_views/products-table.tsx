@@ -1,5 +1,6 @@
 "use client";
 
+import { FC } from "react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -8,13 +9,13 @@ import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { columns, SupplierColumn } from "./columns";
+import { columns, ProductColumn } from "./columns";
 
-interface SuppliersClientProps {
-  data: SupplierColumn[];
+interface ProductsClientProps {
+  data: ProductColumn[];
 }
 
-export const SupplierClient: React.FC<SuppliersClientProps> = ({
+export const ProductsClient: FC<ProductsClientProps> = ({
   data
 }) => {
   const router = useRouter();
@@ -22,8 +23,8 @@ export const SupplierClient: React.FC<SuppliersClientProps> = ({
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title={`Proveedores (${data.length})`} description="Gestione los proveedores de su restaurante" />
-        <Button onClick={() => router.push(`/suppliers/new`)}>
+        <Heading title={`Platillos (${data.length})`} description="Gestione los platillos de su restaurante" />
+        <Button onClick={() => router.push(`/products/new`)}>
           <Plus className="mr-2 h-4 w-4" /> Agregar Nuevo
         </Button>
       </div>

@@ -33,7 +33,7 @@ export const CellAction: FC<CellActionProps> = ({
     try {
       setLoading(true);
       await deleteEmployee(data.id);
-      toast.success('Empleado deleted.');
+      toast.success('Empleado eliminado.');
       router.refresh();
     } catch (error) {
       toast.error('Error en el servidor.');
@@ -61,7 +61,7 @@ export const CellAction: FC<CellActionProps> = ({
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/customers/${data.id}`)}
+            onClick={() => router.push(`/employees/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Actualizar
           </DropdownMenuItem>

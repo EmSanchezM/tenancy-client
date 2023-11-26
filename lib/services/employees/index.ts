@@ -16,6 +16,20 @@ const getAllEmployees = async () => {
   }
 };
 
+const getEmployeeById = async (employeeId: string) => {
+  try {
+    const { data } = await apiPrivate.get<Employee>(`employees/${employeeId}`);
+
+    return {
+      ok: true,
+      data,
+    };
+  } catch (error: any) {
+    const errorData = errorHandler(error);
+    throw { success: false, errorMessage: errorData.message };
+  }
+};
+
 const createEmployee = async (payload: EmployeeFormValues) => {
   try {
     const { data } = await apiPrivate.post("employees", payload);
@@ -31,11 +45,11 @@ const createEmployee = async (payload: EmployeeFormValues) => {
 };
 
 const updateEmployee = async (
-  employeeID: string,
+  employeeId: string,
   payload: EmployeeFormValues
 ) => {
   try {
-    const { data } = await apiPrivate.patch(`employees/${employeeID}`, payload);
+    const { data } = await apiPrivate.patch(`employees/${employeeId}`, payload);
 
     return {
       ok: true,
@@ -47,9 +61,9 @@ const updateEmployee = async (
   }
 };
 
-const deleteEmployee = async (employeeID: string) => {
+const deleteEmployee = async (employeeId: string) => {
   try {
-    const { data } = await apiPrivate.delete(`employees/${employeeID}`);
+    const { data } = await apiPrivate.delete(`employees/${employeeId}`);
 
     return {
       ok: true,
@@ -61,4 +75,10 @@ const deleteEmployee = async (employeeID: string) => {
   }
 };
 
-export { getAllEmployees, createEmployee, updateEmployee, deleteEmployee };
+export {
+  getAllEmployees,
+  getEmployeeById,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+};

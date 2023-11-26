@@ -35,6 +35,12 @@ export function MainNav() {
       icon: <Home className="text-2xl" />
     },
     {
+      href: '/categories',
+      label: 'Categorias',
+      active: pathname === '/categories',
+      icon: <Home className="text-2xl" />
+    },
+    {
       href: '/products',
       label: 'Products',
       active: pathname === '/products',
