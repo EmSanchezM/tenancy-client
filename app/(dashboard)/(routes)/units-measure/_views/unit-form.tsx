@@ -12,47 +12,44 @@ import { Form } from "@/components/ui/form";
 import { FormField } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 
-import { SupplierFormSchema, SupplierFormValues } from "@/lib/validation-schemes";
-import { createSupplier, updateSupplier } from "@/lib/services/supplier";
-import { Supplier } from "@/lib/models/supplier.model";
+import { Unit } from "@/lib/models/unit.model";
+import { UnitsOfMeasureFormSchema, UnitsOfMeasureFormValues } from "@/lib/validation-schemes";
+import { createUnitOfMeasure, updateUnitOfMeasure } from "@/lib/services/units-measure";
 
-interface SupplierFormProps {
-  supplier: Supplier | null;
+interface UnitOfMeasureFormProps {
+  unit: Unit | null;
 }
 
-const SupplierForm: FC<SupplierFormProps> = ({ supplier }) => {
+const UnitOfMeasureForm: FC<UnitOfMeasureFormProps> = ({ unit }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const title = supplier ? 'Editar proveedor' : 'Crear proveedor';
-  const description = supplier ? 'Editar un proveedor.' : 'Agregar un nuevo proveedor';
-  const toastMessage = supplier ? 'Proveedor actualizado.' : 'Proveedor creado.';
-  const action = supplier ? 'Guardar cambios' : 'Crear';
+  const title = unit ? 'Editar unidad de medida' : 'Crear unidad de medida';
+  const description = unit ? 'Editar un unidad de medida.' : 'Agregar una nueva unidad de medida';
+  const toastMessage = unit ? 'Unidad de medida actualizado.' : 'Unidad de medida creada.';
+  const action = unit ? 'Guardar cambios' : 'Crear';
 
-  const form = useForm<SupplierFormValues>({
-    resolver: zodResolver(SupplierFormSchema),
+  const form = useForm<UnitsOfMeasureFormValues>({
+    resolver: zodResolver(UnitsOfMeasureFormSchema),
     defaultValues: {
-      code: supplier?.code || '',
-      name: supplier?.name || '',
-      email: supplier?.email || '',
-      phoneNumber: supplier?.phone || '',
-      address: supplier?.address || '',
-      description: supplier?.description || '',
+      name: unit?.name || '',
+      symbol: unit?.symbol || '',
+      factor: unit?.factor || 1,
     }
   });
 
-  const handleOnsupplierSubmit = async (data: SupplierFormValues) => {
+  const handleOnUnitOfMeasureSubmit = async (data: UnitsOfMeasureFormValues) => {
     try {
       setLoading(true);
-      if (supplier) {
-        await updateSupplier(supplier.id, data);
+      if (unit) {
+        await updateUnitOfMeasure(unit.id, data);
       } else {
-        await createSupplier(data);
+        await createUnitOfMeasure(data);
       }
 
       router.refresh();
-      router.push('/suppliers');
+      router.push('/units-measure');
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(error?.errorMessage ?? 'Something went wrong.');
@@ -68,24 +65,16 @@ const SupplierForm: FC<SupplierFormProps> = ({ supplier }) => {
       </div>
       <Separator />
       <Form {...form}>
-        <form className='m-auto' onSubmit={form.handleSubmit(handleOnsupplierSubmit)}>
+        <form className='m-auto' onSubmit={form.handleSubmit(handleOnUnitOfMeasureSubmit)}>
           <article className='space-y-12'>
             <section className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Datos generales
               </h2>
               <p className='mt-1 text-sm leading-5 text-gray-600'>
-                Información general del proveedor
+                Información general de la unidad de medida
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
-                <div className='sm:col-span-3'>
-                  <FormField
-                    type='text'
-                    name='code'
-                    label='Código de proveedor'
-                    control={form.control}
-                  />
-                </div>
                 <div className='sm:col-span-3'>
                   <FormField
                     type='text'
@@ -96,33 +85,17 @@ const SupplierForm: FC<SupplierFormProps> = ({ supplier }) => {
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='email'
-                    name='email'
-                    label='Correo'
+                    type='text'
                     control={form.control}
+                    name='symbol'
+                    label='Simbolo'
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='text'
-                    name='phoneNumber'
-                    label='Telefono'
-                    control={form.control}
-                  />
-                </div>
-                <div className='sm:col-span-3'>
-                  <FormField
-                    type='text'
-                    control={form.control}
-                    name='address'
-                    label='Dirección'
-                  />
-                </div>
-                <div className='sm:col-span-full'>
-                  <FormField
-                    type='textarea'
-                    name='description'
-                    label='Otros datos'
+                    type='number'
+                    name='factor'
+                    label='Factor'
                     control={form.control}
                   />
                 </div>
@@ -147,4 +120,4 @@ const SupplierForm: FC<SupplierFormProps> = ({ supplier }) => {
   )
 }
 
-export default SupplierForm;
+export default UnitOfMeasureForm;

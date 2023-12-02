@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast"
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/heading";
 import { Form } from "@/components/ui/form";
-import FormField from "@/components/form-components";
+import { FormField } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 
 import { Branch } from "@/lib/models/branch.model";

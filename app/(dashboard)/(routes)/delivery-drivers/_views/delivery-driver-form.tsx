@@ -12,44 +12,43 @@ import { Form } from "@/components/ui/form";
 import { FormField } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 
-import { createCategory, updateCategory } from "@/lib/services/categories";
+import { DeliveryDriver } from "@/lib/models/delivery-driver.model";
+import { DeliveryDriverFormSchema, DeliveryDriverFormValues } from "@/lib/validation-schemes";
+import { createDeliveryDriver, updateDeliveryDriver } from "@/lib/services/delivery-drivers";
 
-import { Category } from "@/lib/models/category.model";
-import { CategoryFormSchema, CategoryFormValues } from "@/lib/validation-schemes";
-
-interface CategoryFormProps {
-  category: Category | null;
+interface DeliveryDriverColumn {
+  deliveryDriver: DeliveryDriver | null;
 }
 
-const CategoryForm: FC<CategoryFormProps> = ({ category }) => {
+const DeliveryDriverForm: FC<DeliveryDriverColumn> = ({ deliveryDriver }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const title = category ? 'Editar categoria' : 'Crear categoria';
-  const description = category ? 'Editar un categoria.' : 'Agregar una nueva categoria';
-  const toastMessage = category ? 'Categoria actualizado.' : 'Categoria creada.';
-  const action = category ? 'Guardar cambios' : 'Crear';
+  const title = deliveryDriver ? 'Editar Conductor' : 'Crear Conductor';
+  const description = deliveryDriver ? 'Editar un conductor.' : 'Agregar un nuevo conductor';
+  const toastMessage = deliveryDriver ? 'Conductor actualizado.' : 'Conductor creado.';
+  const action = deliveryDriver ? 'Guardar cambios' : 'Crear';
 
-  const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(CategoryFormSchema),
+  const form = useForm<DeliveryDriverFormValues>({
+    resolver: zodResolver(DeliveryDriverFormSchema),
     defaultValues: {
-      name: category?.name || '',
-      description: category?.description || '',
+      firstName: deliveryDriver?.firstName || '',
+      lastName: deliveryDriver?.lastName || '',
     }
   });
 
-  const handleOnCategorySubmit = async (data: CategoryFormValues) => {
+  const handleOnDeliveryDriverSubmit = async (data: DeliveryDriverFormValues) => {
     try {
       setLoading(true);
-      if (category) {
-        await updateCategory(category.id, data);
+      if (deliveryDriver) {
+        await updateDeliveryDriver(deliveryDriver.id, data);
       } else {
-        await createCategory(data);
+        await createDeliveryDriver(data);
       }
 
       router.refresh();
-      router.push('/categories');
+      router.push('/delivery-drivers');
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(error?.errorMessage ?? 'Something went wrong.');
@@ -65,29 +64,29 @@ const CategoryForm: FC<CategoryFormProps> = ({ category }) => {
       </div>
       <Separator />
       <Form {...form}>
-        <form className='m-auto' onSubmit={form.handleSubmit(handleOnCategorySubmit)}>
+        <form className='m-auto' onSubmit={form.handleSubmit(handleOnDeliveryDriverSubmit)}>
           <article className='space-y-12'>
             <section className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Datos generales
               </h2>
               <p className='mt-1 text-sm leading-5 text-gray-600'>
-                Información general del categoria
+                Información general del conductor
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
                 <div className='sm:col-span-3'>
                   <FormField
                     type='text'
                     control={form.control}
-                    name='name'
+                    name='firstName'
                     label='Nombre'
                   />
                 </div>
-                <div className='sm:col-span-full'>
+                <div className='sm:col-span-3'>
                   <FormField
-                    type='textarea'
-                    name='description'
-                    label='Descripción'
+                    type='text'
+                    name='lastName'
+                    label='Apellido'
                     control={form.control}
                   />
                 </div>
@@ -112,4 +111,4 @@ const CategoryForm: FC<CategoryFormProps> = ({ category }) => {
   )
 }
 
-export default CategoryForm;
+export default DeliveryDriverForm;

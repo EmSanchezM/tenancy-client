@@ -4,18 +4,18 @@ import { getSession } from "next-auth/react";
 import { codeMessage } from "../constants/codeMessage";
 import { HttpExceptionBody } from "../models/error-http.model";
 
-const BASEURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-const isServer = typeof window === "undefined";
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const tenantName = process.env.TENANT_NAME;
 
 export const api = axios.create({
-  baseURL: BASEURL,
+  baseURL: `${baseURL}/${tenantName}`,
   headers: {
     "Content-type": "application/json",
   },
 });
 
 export const apiPrivate = axios.create({
-  baseURL: BASEURL,
+  baseURL: `${baseURL}/${tenantName}`,
   headers: {
     "Content-Type": "application/json",
   },

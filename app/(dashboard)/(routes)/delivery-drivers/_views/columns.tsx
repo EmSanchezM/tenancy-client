@@ -4,21 +4,21 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import { CellAction } from "./cell-action"
 
-export type CategoryColumn = {
+export type DeliveryDriverColumn = {
   id: string;
-  name: string;
-  description: string;
+  firstName: string;
+  lastName: string;
   createdAt: string;
 }
 
-export const columns: ColumnDef<CategoryColumn>[] = [
+export const columns: ColumnDef<DeliveryDriverColumn>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "firstName",
     header: "Nombre",
   },
   {
-    accessorKey: "description",
-    header: "Descripcion",
+    accessorKey: "lastName",
+    header: "Apellido",
   },
   {
     accessorKey: "createdAt",

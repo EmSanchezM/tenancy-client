@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 
 import Header from "@/components/navigation/header";
 import Sidebar from "@/components/navigation/sidebar";
-import SidebarProvider from "@/providers/sidebar-provider";
+import { SidebarProvider } from "@/providers";
 
 export default function DashboardLayout({
   children,

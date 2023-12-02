@@ -15,7 +15,7 @@ interface FormFieldProps {
   items?: { id: string; name: string; }[];
 }
 
-const FormField: FC<FormFieldProps> = ({ type, label, name, items, control }) => {
+export const FormField: FC<FormFieldProps> = ({ type, label, name, items, control }) => {
   switch (type) {
     case 'text':
     case 'number':
@@ -35,4 +35,3 @@ const FormField: FC<FormFieldProps> = ({ type, label, name, items, control }) =>
       return (<InputDate label={label} name={name} control={control} />)
   }
 };
-export default FormField;

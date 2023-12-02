@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export const customerFormSchema = z.object({
+export const CustomerFormSchema = z.object({
   firstName: z.string().min(2),
   lastName: z.string().min(2),
   address: z.object({
@@ -20,4 +20,4 @@ export const customerFormSchema = z.object({
   birthday: z.date().optional().or(z.literal(undefined)),
 });
 
-export type CustomerFormValues = z.infer<typeof customerFormSchema>;
+export type CustomerFormValues = z.infer<typeof CustomerFormSchema>;

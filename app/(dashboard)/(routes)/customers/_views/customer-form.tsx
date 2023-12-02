@@ -9,10 +9,10 @@ import { toast } from "react-hot-toast"
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/heading";
 import { Form } from "@/components/ui/form";
-import FormField from "@/components/form-components";
+import { FormField } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 
-import { CustomerFormValues, customerFormSchema } from "@/lib/validation-schemes/customer.schema";
+import { CustomerFormValues, CustomerFormSchema } from "@/lib/validation-schemes";
 import { createCustomer, updateCustomer } from "@/lib/services/customers";
 import { Customer } from "@/lib/models/customer.model";
 
@@ -31,7 +31,7 @@ const CustomerForm: FC<CustomerFormProps> = ({ customer }) => {
   const action = customer ? 'Guardar cambios' : 'Crear';
 
   const form = useForm<CustomerFormValues>({
-    resolver: zodResolver(customerFormSchema),
+    resolver: zodResolver(CustomerFormSchema),
     defaultValues: {
       firstName: customer?.firstName || '',
       lastName: customer?.lastName || '',

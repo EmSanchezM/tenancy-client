@@ -18,14 +18,14 @@ const options: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const user = await Login({
+          const responseUser = await Login({
             emailOrUsername: credentials?.email!,
             password: credentials?.password!,
           });
 
-          if (!user.success) throw new Error("Credentials not valid");
+          if (!responseUser.success) throw new Error("Credentials not valid");
 
-          return user.data;
+          return responseUser.data;
         } catch {
           throw new Error("Credentials not valid");
         }

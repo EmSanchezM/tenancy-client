@@ -42,7 +42,7 @@ export const columns: ColumnDef<SupplierColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Date",
+    header: "Fecha de creación",
   },
   {
     id: "actions",

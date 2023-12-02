@@ -29,6 +29,12 @@ export function MainNav() {
       icon: <Home className="text-2xl" />
     },
     {
+      href: '/delivery-drivers',
+      label: 'Conductores',
+      active: pathname === '/delivery-drivers',
+      icon: <Home className="text-2xl" />
+    },
+    {
       href: '/suppliers',
       label: 'Proveedores',
       active: pathname === '/suppliers',
@@ -47,9 +53,9 @@ export function MainNav() {
       icon: <Home className="text-2xl" />
     },
     {
-      href: '/orders',
-      label: 'Orders',
-      active: pathname === '/orders',
+      href: '/units-measure',
+      label: 'Unidades de medida',
+      active: pathname === '/units-measure',
       icon: <Home className="text-2xl" />
     },
     {

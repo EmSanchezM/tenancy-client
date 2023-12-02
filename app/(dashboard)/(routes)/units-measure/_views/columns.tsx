@@ -4,36 +4,26 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import { CellAction } from "./cell-action"
 
-export type ProductColumn = {
+export type UnitOfMeasureColumn = {
   id: string;
   name: string;
-  description: string;
-  price: string;
-  category: string;
-  variants: string;
+  symbol: string;
+  factor: number;
   createdAt: string;
 }
 
-export const columns: ColumnDef<ProductColumn>[] = [
+export const columns: ColumnDef<UnitOfMeasureColumn>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
   },
   {
-    accessorKey: "description",
-    header: "Descripcion",
+    accessorKey: "symbol",
+    header: "Simbolo",
   },
   {
-    accessorKey: "price",
-    header: "Precio",
-  },
-  {
-    accessorKey: "category",
-    header: "Categoría",
-  },
-  {
-    accessorKey: "variants",
-    header: "Variantes",
+    accessorKey: "factor",
+    header: "Factor",
   },
   {
     accessorKey: "createdAt",
