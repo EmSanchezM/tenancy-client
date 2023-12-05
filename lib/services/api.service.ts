@@ -5,7 +5,7 @@ import { codeMessage } from "../constants/codeMessage";
 import { HttpExceptionBody } from "../models/error-http.model";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-const tenantName = process.env.TENANT_NAME;
+const tenantName = process.env.NEXT_PUBLIC_TENANT_NAME;
 
 export const api = axios.create({
   baseURL: `${baseURL}/${tenantName}`,

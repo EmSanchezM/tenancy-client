@@ -12,50 +12,53 @@ import { Form } from "@/components/ui/form";
 import { FormField } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 
-import { createProduct, updateProduct } from "@/lib/services/produts";
-import { Product } from "@/lib/models/product.model";
-import { ProductFormSchema, ProductFormValues } from "@/lib/validation-schemes/product.schema";
+import { createRecipe, updateRecipe } from "@/lib/services/recipes";
+import { Recipe } from "@/lib/models/recipe.model";
+import { RecipeFormSchema, RecipeFormValues } from "@/lib/validation-schemes";
 import { SelectFormat } from "@/lib/models/select-format.model";
 
-interface ProductFormProps {
-  product: Product | null;
+interface RecipeFormProps {
+  recipe: Recipe | null;
+  products: SelectFormat[];
   categories: SelectFormat[];
+  rawMaterials: SelectFormat[];
 }
 
-const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
+const RecipeForm: FC<RecipeFormProps> = ({ recipe, products, categories, rawMaterials }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const title = product ? 'Editar producto' : 'Crear producto';
-  const description = product ? 'Editar un producto.' : 'Agregar una nueva producto';
-  const toastMessage = product ? 'Producto actualizado.' : 'Producto creado.';
-  const action = product ? 'Guardar cambios' : 'Crear';
+  const title = recipe ? 'Editar Receta' : 'Crear Receta';
+  const description = recipe ? 'Editar una receta.' : 'Agregar una nueva receta';
+  const toastMessage = recipe ? 'Receta actualizada.' : 'Receta creada.';
+  const action = recipe ? 'Guardar cambios' : 'Crear';
 
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(ProductFormSchema),
+  const form = useForm<RecipeFormValues>({
+    resolver: zodResolver(RecipeFormSchema),
     mode: 'onChange',
     defaultValues: {
-      name: product?.name || '',
-      description: product?.description || '',
-      category: product?.category?.id || '',
-      price: product?.price || 0,
-      variants: product?.variants?.map(variant => ({ name: variant.name, price: variant.price })) || [{ name: '', price: 0 }],
+      name: recipe?.name || '',
+      category: recipe?.category || '',
+      product: recipe?.product?.id || '',
+      portions: recipe?.portions || 0,
+      preparationTime: { time: recipe?.preparationTime.time, unit: recipe?.preparationTime.unit } || { time: '', unit: '' },
+      difficulty: recipe?.difficulty || '',
     }
   });
-  const { fields, append, remove } = useFieldArray({ control: form.control, name: 'variants' })
+  const { fields, append, remove } = useFieldArray({ control: form.control, name: 'ingredients', })
 
-  const handleOnProductSubmit = async (data: ProductFormValues) => {
+  const handleOnRecipeSubmit = async (data: RecipeFormValues) => {
     try {
       setLoading(true);
-      if (product) {
-        await updateProduct(product.id, data);
+      if (recipe) {
+        await updateRecipe(recipe.id, data);
       } else {
-        await createProduct(data);
+        await createRecipe(data);
       }
 
       router.refresh();
-      router.push('/products');
+      router.push('/Recipes');
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(error?.errorMessage ?? 'Something went wrong.');
@@ -71,14 +74,14 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
       </div>
       <Separator />
       <Form {...form}>
-        <form className='m-auto' onSubmit={form.handleSubmit(handleOnProductSubmit)}>
+        <form className='m-auto' onSubmit={form.handleSubmit(handleOnRecipeSubmit)}>
           <article className='space-y-12'>
             <section className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Datos generales
               </h2>
               <p className='mt-1 text-sm leading-5 text-gray-600'>
-                Información general del producto
+                Información general del Receta
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
                 <div className='sm:col-span-4'>
@@ -88,6 +91,15 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
                     label='Categoría'
                     control={form.control}
                     items={categories}
+                  />
+                </div>
+                <div className='sm:col-span-4'>
+                  <FormField
+                    type='select'
+                    name='product'
+                    label='Platillo'
+                    control={form.control}
+                    items={products}
                   />
                 </div>
                 <div className='sm:col-span-3'>
@@ -101,17 +113,24 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
                 <div className='sm:col-span-3'>
                   <FormField
                     type='number'
-                    name='price'
-                    label='Precio'
+                    name='portions'
+                    label='Porciones'
                     control={form.control}
                   />
                 </div>
-
-                <div className='sm:col-span-full'>
+                <div className='sm:col-span-3'>
                   <FormField
-                    type='textarea'
-                    name='description'
-                    label='Descripción'
+                    type='text'
+                    name='preparationTime.time'
+                    label='Tiempo de preparación'
+                    control={form.control}
+                  />
+                </div>
+                <div className='sm:col-span-3'>
+                  <FormField
+                    type='text'
+                    name='preparationTime.unit'
+                    label='Unidad'
                     control={form.control}
                   />
                 </div>
@@ -119,10 +138,10 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
             </section>
             <section className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
-                Variantes
+                Ingredientes
               </h2>
               <p className='mt-1 text-sm leading-5 text-gray-600'>
-                Presentaciones del platillo
+                Insumos necesarios para crear el platillo
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
                 {
@@ -130,18 +149,28 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
                     <div key={field.id}>
                       <div className='sm:col-span-3'>
                         <FormField
-                          type='text'
+                          type='select'
                           control={form.control}
-                          name={`variants.${index}.name`}
-                          label='Nombre'
+                          name={`ingredients.${index}.rawMaterial`}
+                          label='Insumo'
+                          items={rawMaterials}
                         />
                       </div>
                       <div className='sm:col-span-3'>
                         <FormField
                           type='number'
-                          name={`variants.${index}.price`}
-                          label='Precio'
+                          name={`ingredients.${index}.quantity`}
+                          label='Cantidad'
                           control={form.control}
+                        />
+                      </div>
+                      <div className='sm:col-span-3'>
+                        <FormField
+                          type='select'
+                          name={`ingredients.${index}.unit`}
+                          label='Unidad de medida'
+                          control={form.control}
+                          items={rawMaterials}
                         />
                       </div>
                       <div className='sm:col-span-2 mt-2'>
@@ -151,7 +180,7 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
                   ))
                 }
                 <div className='sm:col-span-3'>
-                  <Button type='button' onClick={() => append({ name: '', price: 0 })}>Agregar variante</Button>
+                  <Button type='button' onClick={() => append({ rawMaterial: '', quantity: 0, unit: '' })}>Agregar ingrediente</Button>
                 </div>
               </div>
             </section>
@@ -174,4 +203,4 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
   )
 }
 
-export default ProductForm;
+export default RecipeForm;

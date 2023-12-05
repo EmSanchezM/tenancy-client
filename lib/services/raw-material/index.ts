@@ -1,6 +1,6 @@
 import { apiPrivate, errorHandler } from "../api.service";
 import { RawMaterial } from "@/lib/models/raw-material.model";
-import { RawMaterialFormValues } from "@/lib/validation-schemes/raw-materila.schema";
+import { RawMaterialFormValues } from "@/lib/validation-schemes/raw-material.schema";
 
 const getAllRawMaterials = async () => {
   try {
@@ -56,7 +56,11 @@ const updateRawMaterial = async (
   try {
     const { data } = await apiPrivate.patch<RawMaterial>(
       `inventory/products/${rawMaterialId}`,
-      payload
+      {
+        ...payload,
+        suppliers: [payload.suppliers],
+        unitsOfMeasure: [payload.unitsOfMeasure],
+      }
     );
 
     return {

@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const RequisitionFormSchema = z.object({
-  name: z.string(),
+  area: z.string(),
   dateToMeet: z.coerce.date(),
   items: z.array(
     z.object({

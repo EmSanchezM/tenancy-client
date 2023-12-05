@@ -12,50 +12,50 @@ import { Form } from "@/components/ui/form";
 import { FormField } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 
-import { createProduct, updateProduct } from "@/lib/services/produts";
-import { Product } from "@/lib/models/product.model";
-import { ProductFormSchema, ProductFormValues } from "@/lib/validation-schemes/product.schema";
+import { createRequisition, updateRequisition } from "@/lib/services/requisitions";
+import { Requisition } from "@/lib/models/requisition.model";
+import { RequisitionFormSchema, RequisitionFormValues } from "@/lib/validation-schemes";
 import { SelectFormat } from "@/lib/models/select-format.model";
 
-interface ProductFormProps {
-  product: Product | null;
-  categories: SelectFormat[];
+interface RequisitionFormProps {
+  requisition: Requisition | null;
+  areas: SelectFormat[];
+  rawMaterials: SelectFormat[];
+  unitsOfMeasure: SelectFormat[];
 }
 
-const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
+const RequisitionForm: FC<RequisitionFormProps> = ({ requisition, areas, rawMaterials, unitsOfMeasure }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const title = product ? 'Editar producto' : 'Crear producto';
-  const description = product ? 'Editar un producto.' : 'Agregar una nueva producto';
-  const toastMessage = product ? 'Producto actualizado.' : 'Producto creado.';
-  const action = product ? 'Guardar cambios' : 'Crear';
+  const title = requisition ? 'Editar Requisición' : 'Crear Requisición';
+  const description = requisition ? 'Editar un Requisición.' : 'Agregar una nueva Requisición';
+  const toastMessage = requisition ? 'Requisición actualizada.' : 'Requisición creada.';
+  const action = requisition ? 'Guardar cambios' : 'Crear';
 
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(ProductFormSchema),
+  const form = useForm<RequisitionFormValues>({
+    resolver: zodResolver(RequisitionFormSchema),
     mode: 'onChange',
     defaultValues: {
-      name: product?.name || '',
-      description: product?.description || '',
-      category: product?.category?.id || '',
-      price: product?.price || 0,
-      variants: product?.variants?.map(variant => ({ name: variant.name, price: variant.price })) || [{ name: '', price: 0 }],
+      area: requisition?.area?.id || '',
+      dateToMeet: undefined,
+      items: [{ product: '', quantity: 1, unit: '', price: 1 }]
     }
   });
-  const { fields, append, remove } = useFieldArray({ control: form.control, name: 'variants' })
+  const { fields, append, remove } = useFieldArray({ control: form.control, name: 'items' })
 
-  const handleOnProductSubmit = async (data: ProductFormValues) => {
+  const handleOnRequisitionSubmit = async (data: RequisitionFormValues) => {
     try {
       setLoading(true);
-      if (product) {
-        await updateProduct(product.id, data);
+      if (requisition) {
+        await updateRequisition(requisition.id, data);
       } else {
-        await createProduct(data);
+        await createRequisition(data);
       }
 
       router.refresh();
-      router.push('/products');
+      router.push('/requisitions');
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(error?.errorMessage ?? 'Something went wrong.');
@@ -71,58 +71,41 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
       </div>
       <Separator />
       <Form {...form}>
-        <form className='m-auto' onSubmit={form.handleSubmit(handleOnProductSubmit)}>
+        <form className='m-auto' onSubmit={form.handleSubmit(handleOnRequisitionSubmit)}>
           <article className='space-y-12'>
             <section className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Datos generales
               </h2>
               <p className='mt-1 text-sm leading-5 text-gray-600'>
-                Información general del producto
+                Información general del Requisitiono
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
                 <div className='sm:col-span-4'>
                   <FormField
                     type='select'
-                    name='category'
-                    label='Categoría'
+                    name='area'
+                    label='Area donde se solicita'
                     control={form.control}
-                    items={categories}
+                    items={areas}
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='text'
+                    type='date'
                     control={form.control}
-                    name='name'
-                    label='Nombre'
-                  />
-                </div>
-                <div className='sm:col-span-3'>
-                  <FormField
-                    type='number'
-                    name='price'
-                    label='Precio'
-                    control={form.control}
-                  />
-                </div>
-
-                <div className='sm:col-span-full'>
-                  <FormField
-                    type='textarea'
-                    name='description'
-                    label='Descripción'
-                    control={form.control}
+                    name='dateToMeet'
+                    label='Fecha a cumplir'
                   />
                 </div>
               </div>
             </section>
             <section className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
-                Variantes
+                Insumos a solicitar
               </h2>
               <p className='mt-1 text-sm leading-5 text-gray-600'>
-                Presentaciones del platillo
+                Todos los insumos a solicitar en la requisición
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
                 {
@@ -130,16 +113,34 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
                     <div key={field.id}>
                       <div className='sm:col-span-3'>
                         <FormField
-                          type='text'
+                          type='select'
                           control={form.control}
-                          name={`variants.${index}.name`}
-                          label='Nombre'
+                          name={`items.${index}.product`}
+                          label='Insumo'
+                          items={rawMaterials}
+                        />
+                      </div>
+                      <div className='sm:col-span-3'>
+                        <FormField
+                          type='select'
+                          control={form.control}
+                          name={`items.${index}.unit`}
+                          label='Unidad de medida'
+                          items={unitsOfMeasure}
                         />
                       </div>
                       <div className='sm:col-span-3'>
                         <FormField
                           type='number'
-                          name={`variants.${index}.price`}
+                          name={`items.${index}.quantity`}
+                          label='Camtidad'
+                          control={form.control}
+                        />
+                      </div>
+                      <div className='sm:col-span-3'>
+                        <FormField
+                          type='number'
+                          name={`items.${index}.price`}
                           label='Precio'
                           control={form.control}
                         />
@@ -151,7 +152,7 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
                   ))
                 }
                 <div className='sm:col-span-3'>
-                  <Button type='button' onClick={() => append({ name: '', price: 0 })}>Agregar variante</Button>
+                  <Button type='button' onClick={() => append({ product: '', quantity: 0, price: 0, unit: '' })}>Agregar item</Button>
                 </div>
               </div>
             </section>
@@ -174,4 +175,4 @@ const ProductForm: FC<ProductFormProps> = ({ product, categories }) => {
   )
 }
 
-export default ProductForm;
+export default RequisitionForm;

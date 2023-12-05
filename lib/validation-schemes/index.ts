@@ -1,3 +1,9 @@
+export {
+  AreaFormSchema,
+  TableFormSchema,
+  type AreaFormValues,
+  type TableFormValues,
+} from "./area.schema";
 export { BranchFormSchema, type BranchFormValues } from "./branch.schema";
 export { CategoryFormSchema, type CategoryFormValues } from "./category.schema";
 export { CustomerFormSchema, type CustomerFormValues } from "./customer.schema";
@@ -10,7 +16,7 @@ export { ProductFormSchema, type ProductFormValues } from "./product.schema";
 export {
   RawMaterialFormSchema,
   type RawMaterialFormValues,
-} from "./raw-materila.schema";
+} from "./raw-material.schema";
 export { RecipeFormSchema, type RecipeFormValues } from "./recipes.schema";
 export {
   RequisitionFormSchema,

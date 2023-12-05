@@ -12,7 +12,7 @@ export const RecipeFormSchema = z.object({
   difficulty: z.string(),
   ingredients: z.array(
     z.object({
-      product: z.string(),
+      rawMaterial: z.string(),
       quantity: z.coerce.number().min(1),
       unit: z.string(),
     })

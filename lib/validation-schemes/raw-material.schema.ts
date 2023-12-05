@@ -10,8 +10,8 @@ export const RawMaterialFormSchema = z.object({
   minStock: z.coerce.number().min(1),
   maxStock: z.coerce.number().min(1),
   category: z.string(),
-  suppliers: z.array(z.string()),
-  unitsOfMeasure: z.array(z.string()),
+  suppliers: z.string(), //z.array(z.string()),
+  unitsOfMeasure: z.string(), //z.array(z.string()),
 });
 
 export type RawMaterialFormValues = z.infer<typeof RawMaterialFormSchema>;

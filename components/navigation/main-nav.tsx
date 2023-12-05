@@ -53,15 +53,21 @@ export function MainNav() {
       icon: <Home className="text-2xl" />
     },
     {
+      href: '/raw-materials',
+      label: 'Insumos',
+      active: pathname === '/raw-mterials',
+      icon: <Home className="text-2xl" />
+    },
+    {
       href: '/units-measure',
       label: 'Unidades de medida',
       active: pathname === '/units-measure',
       icon: <Home className="text-2xl" />
     },
     {
-      href: '/settings',
-      label: 'Settings',
-      active: pathname === '/settings',
+      href: '/recipes',
+      label: 'Recetas',
+      active: pathname === '/recipes',
       icon: <Home className="text-2xl" />
     },
   ]
