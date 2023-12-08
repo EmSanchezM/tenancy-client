@@ -5,7 +5,7 @@ import { AreaFormValues, TableFormValues } from "@/lib/validation-schemes";
 
 const getAllAreas = async () => {
   try {
-    const { data } = await apiPrivate.get<Area[]>("areas");
+    const { data } = await apiPrivate.get<Area[]>(`areas`);
 
     return {
       ok: true,

@@ -66,14 +66,14 @@ const RequisitionForm: FC<RequisitionFormProps> = ({ requisition, areas, rawMate
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <section className="flex items-center justify-between">
         <Heading title={title} description={description} />
-      </div>
+      </section>
       <Separator />
       <Form {...form}>
         <form className='m-auto' onSubmit={form.handleSubmit(handleOnRequisitionSubmit)}>
-          <article className='space-y-12'>
-            <section className='border-b border-gray-900/10 pb-10'>
+          <section className='space-y-12'>
+            <article className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Datos generales
               </h2>
@@ -99,8 +99,8 @@ const RequisitionForm: FC<RequisitionFormProps> = ({ requisition, areas, rawMate
                   />
                 </div>
               </div>
-            </section>
-            <section className='border-b border-gray-900/10 pb-10'>
+            </article>
+            <article className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Insumos a solicitar
               </h2>
@@ -155,9 +155,9 @@ const RequisitionForm: FC<RequisitionFormProps> = ({ requisition, areas, rawMate
                   <Button type='button' onClick={() => append({ product: '', quantity: 0, price: 0, unit: '' })}>Agregar item</Button>
                 </div>
               </div>
-            </section>
-          </article>
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+            </article>
+          </section>
+          <section className="mt-6 flex items-center justify-end gap-x-6">
             <Button
               type='button'
             >
@@ -168,7 +168,7 @@ const RequisitionForm: FC<RequisitionFormProps> = ({ requisition, areas, rawMate
             >
               {action}
             </Button>
-          </div>
+          </section>
         </form>
       </Form>
     </>

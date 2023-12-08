@@ -1,10 +1,10 @@
 import { apiPrivate, errorHandler } from "../api.service";
-import { Customer } from "@/lib/models/customer.model";
-import { CustomerFormValues } from "@/lib/validation-schemes/customer.schema";
+import { Printer } from "@/lib/models/printer.model";
+import { PrinterFormValues } from "@/lib/validation-schemes/printer.schema";
 
-const getAllCustomers = async () => {
+const getAllPrinters = async () => {
   try {
-    const { data } = await apiPrivate.get<Customer[]>("customers");
+    const { data } = await apiPrivate.get<Printer[]>("printers");
 
     return {
       ok: true,
@@ -16,9 +16,9 @@ const getAllCustomers = async () => {
   }
 };
 
-const getCustomerById = async (customerId: string) => {
+const getPrinterById = async (printerId: string) => {
   try {
-    const { data } = await apiPrivate.get<Customer>(`customers/${customerId}`);
+    const { data } = await apiPrivate.get<Printer>(`printers/${printerId}`);
 
     return {
       ok: true,
@@ -30,9 +30,9 @@ const getCustomerById = async (customerId: string) => {
   }
 };
 
-const createCustomer = async (payload: CustomerFormValues) => {
+const createPrinter = async (payload: PrinterFormValues) => {
   try {
-    const { data } = await apiPrivate.post<Customer>("customers", payload);
+    const { data } = await apiPrivate.post<Printer>("printers", payload);
 
     return {
       ok: true,
@@ -44,13 +44,13 @@ const createCustomer = async (payload: CustomerFormValues) => {
   }
 };
 
-const updateCustomer = async (
-  customerId: string,
-  payload: CustomerFormValues
+const updatePrinter = async (
+  printerId: string,
+  payload: Partial<PrinterFormValues>
 ) => {
   try {
-    const { data } = await apiPrivate.patch<Customer>(
-      `customers/${customerId}`,
+    const { data } = await apiPrivate.patch<Printer>(
+      `printers/${printerId}`,
       payload
     );
 
@@ -64,11 +64,9 @@ const updateCustomer = async (
   }
 };
 
-const deleteCustomer = async (customerId: string) => {
+const deletePrinter = async (printerId: string) => {
   try {
-    const { data } = await apiPrivate.delete<Customer>(
-      `customers/${customerId}`
-    );
+    const { data } = await apiPrivate.delete<Printer>(`printers/${printerId}`);
 
     return {
       ok: true,
@@ -81,9 +79,9 @@ const deleteCustomer = async (customerId: string) => {
 };
 
 export {
-  getAllCustomers,
-  getCustomerById,
-  createCustomer,
-  updateCustomer,
-  deleteCustomer,
+  getAllPrinters,
+  getPrinterById,
+  createPrinter,
+  updatePrinter,
+  deletePrinter,
 };

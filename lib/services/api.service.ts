@@ -23,6 +23,7 @@ export const apiPrivate = axios.create({
 
 apiPrivate.interceptors.request.use(async (config) => {
   const session = await getSession();
+
   if (session) {
     config.headers["Authorization"] = `Bearer ${session?.user.token}`;
   }

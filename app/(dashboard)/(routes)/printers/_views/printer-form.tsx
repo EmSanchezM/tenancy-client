@@ -12,57 +12,55 @@ import { Form } from "@/components/ui/form";
 import { FormField } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 
-import { createRawMaterial, updateRawMaterial } from "@/lib/services/raw-material";
-import { RawMaterial } from "@/lib/models/raw-material.model";
+import { PrinterFormValues, PrinterFormSchema } from "@/lib/validation-schemes";
+import { createPrinter, updatePrinter } from "@/lib/services/printers";
+import { Printer } from "@/lib/models/printer.model";
 import { SelectFormat } from "@/lib/models/select-format.model";
-import { RawMaterialFormSchema, RawMaterialFormValues } from "@/lib/validation-schemes";
 
-interface RawMaterialFormProps {
-  rawMaterial: RawMaterial | null;
-  categories: SelectFormat[];
-  suppliers: SelectFormat[];
-  unitsOfMeasure: SelectFormat[];
+interface PrinterFormProps {
+  printer: Printer | null;
+  areas: SelectFormat[];
 }
 
-const RawMaterialForm: FC<RawMaterialFormProps> = ({ rawMaterial, categories, suppliers, unitsOfMeasure }) => {
+const PrinterForm: FC<PrinterFormProps> = ({ printer, areas }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const title = rawMaterial ? 'Editar Insumo' : 'Crear Insumo';
-  const description = rawMaterial ? 'Editar un insumo.' : 'Agregar un nuevo insumo';
-  const toastMessage = rawMaterial ? 'Insumo actualizado.' : 'Insumo creado.';
-  const action = rawMaterial ? 'Guardar cambios' : 'Crear';
+  const title = printer ? 'Editar impresora' : 'Crear impresora';
+  const description = printer ? 'Editar un impresora.' : 'Agregar un nuevo impresora';
+  const toastMessage = printer ? 'Impresora actualizado.' : 'Impresora creado.';
+  const action = printer ? 'Guardar cambios' : 'Crear';
 
-  const form = useForm<RawMaterialFormValues>({
-    resolver: zodResolver(RawMaterialFormSchema),
-    mode: 'onChange',
+  const form = useForm<PrinterFormValues>({
+    resolver: zodResolver(PrinterFormSchema),
     defaultValues: {
-      name: rawMaterial?.name || '',
-      description: rawMaterial?.description || '',
-      expirationDate: rawMaterial?.expirationDate || undefined,
-      price: rawMaterial?.price || 0,
-      costPrice: rawMaterial?.costPrice || 0,
-      quantity: rawMaterial?.quantity || 0,
-      minStock: rawMaterial?.minStock || 0,
-      maxStock: rawMaterial?.maxStock || 0,
-      category: rawMaterial?.category?.id || '',
-      suppliers: rawMaterial?.suppliers[0].id || '',
-      unitsOfMeasure: rawMaterial?.unitsOfMeasure[0]?.id || '',
+      name: printer?.name || '',
+      model: printer?.model || '',
+      serialNumber: printer?.serialNumber || '',
+      ipAddress: printer?.ipAddress || '',
+      tcpPort: printer?.tcpPort || 0,
+      macAddress: printer?.macAddress || '',
+      hostName: printer?.hostName || '',
+      subnetMask: printer?.subnetMask || '',
+      gateway: printer?.gateway || '',
+      area: printer?.area.id || '',
     }
   });
 
-  const handleOnRawMaterialSubmit = async (data: RawMaterialFormValues) => {
+  const handleOnPrinterSubmit = async (data: PrinterFormValues) => {
     try {
       setLoading(true);
-      if (rawMaterial) {
-        await updateRawMaterial(rawMaterial.id, data);
+      if (printer) {
+        const process = await updatePrinter(printer.id, data);
+        console.log(process)
+
       } else {
-        await createRawMaterial(data);
+        await createPrinter(data);
       }
 
       router.refresh();
-      router.push('/raw-materials');
+      router.push('/customers');
       toast.success(toastMessage);
     } catch (error: any) {
       toast.error(error?.errorMessage ?? 'Something went wrong.');
@@ -73,103 +71,100 @@ const RawMaterialForm: FC<RawMaterialFormProps> = ({ rawMaterial, categories, su
 
   return (
     <>
-      <section className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-      </section>
+      </div>
       <Separator />
       <Form {...form}>
-        <form className='m-auto' onSubmit={form.handleSubmit(handleOnRawMaterialSubmit)}>
+        <form className='m-auto' onSubmit={form.handleSubmit(handleOnPrinterSubmit)}>
           <section className='space-y-12'>
             <article className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
-                Datos generales
+                Información general
               </h2>
               <p className='mt-1 text-sm leading-5 text-gray-600'>
-                Información general del insumo o materia prima
+                Información general de la impresora
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
-                <div className='sm:col-span-4'>
-                  <FormField
-                    type='select'
-                    name='category'
-                    label='Categoría'
-                    control={form.control}
-                    items={categories}
-                  />
-                </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='select'
-                    name='suppliers'
-                    label='Proveedor(es)'
+                    type='text'
+                    name='namee'
+                    label='Nombre'
                     control={form.control}
-                    items={suppliers}
-                  />
-                </div>
-                <div className='sm:col-span-3'>
-                  <FormField
-                    type='select'
-                    name='unitsOfMeasure'
-                    label='Unidad de medida(s)'
-                    control={form.control}
-                    items={unitsOfMeasure}
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
                     type='text'
                     control={form.control}
-                    name='name'
-                    label='Nombre'
+                    name='model'
+                    label='Modelo'
+                  />
+                </div>
+                <div className='sm:col-span-3'>
+                  <FormField
+                    type='text'
+                    control={form.control}
+                    name='serialNumber'
+                    label='Numero de serie'
+                  />
+                </div>
+                <div className='sm:col-span-3'>
+                  <FormField
+                    type='text'
+                    control={form.control}
+                    name='ipAddress'
+                    label='Dirección IP'
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
                     type='number'
-                    name='quantity'
-                    label='Cantidad'
                     control={form.control}
+                    name='tcpPort'
+                    label='Puerto'
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='number'
-                    name='minStock'
-                    label='Mínimo de existencias'
+                    type='text'
                     control={form.control}
+                    name='macAddress'
+                    label='Dirección MAC'
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='number'
-                    name='maxStock'
-                    label='Maximo de existencias'
+                    type='text'
                     control={form.control}
+                    name='hostName'
+                    label='HostName'
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='number'
-                    name='price'
-                    label='Precio'
+                    type='text'
                     control={form.control}
+                    name='subnetMask'
+                    label='Mascara de subred'
                   />
                 </div>
                 <div className='sm:col-span-3'>
                   <FormField
-                    type='number'
-                    name='costPrice'
-                    label='Precio de costo'
+                    type='text'
                     control={form.control}
+                    name='gateway'
+                    label='Puerta de enlace'
                   />
                 </div>
-
-                <div className='sm:col-span-full'>
+                <div className='col-span-full'>
                   <FormField
-                    type='textarea'
-                    name='description'
-                    label='Descripción'
+                    type='select'
                     control={form.control}
+                    name='area'
+                    label='Areas'
+                    items={areas}
                   />
                 </div>
               </div>
@@ -193,4 +188,4 @@ const RawMaterialForm: FC<RawMaterialFormProps> = ({ rawMaterial, categories, su
   )
 }
 
-export default RawMaterialForm;
+export default PrinterForm;

@@ -78,14 +78,14 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ employee }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <section className="flex items-center justify-between">
         <Heading title={title} description={description} />
-      </div>
+      </section>
       <Separator />
       <Form {...form}>
         <form className='m-auto' onSubmit={form.handleSubmit(handleOnEmployeeSubmit)}>
-          <article className='space-y-12'>
-            <section className='border-b border-gray-900/10 pb-10'>
+          <section className='space-y-12'>
+            <article className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Información personal
               </h2>
@@ -134,8 +134,8 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ employee }) => {
                   />
                 </div>
               </div>
-            </section>
-            <section className='border-b border-gray-900/10 pb-10'>
+            </article>
+            <article className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800'>
                 Información de contacto
               </h2>
@@ -184,8 +184,8 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ employee }) => {
                   />
                 </div>
               </div>
-            </section>
-            <section className='border-b border-gray-900/10 pb-10'>
+            </article>
+            <article className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800'>
                 Información de ubicación
               </h2>
@@ -234,9 +234,9 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ employee }) => {
                   />
                 </div>
               </div>
-            </section>
-          </article>
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+            </article>
+          </section>
+          <section className="mt-6 flex items-center justify-end gap-x-6">
             <Button
               type='button'
             >
@@ -247,7 +247,7 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ employee }) => {
             >
               {action}
             </Button>
-          </div>
+          </section>
         </form>
       </Form>
     </>

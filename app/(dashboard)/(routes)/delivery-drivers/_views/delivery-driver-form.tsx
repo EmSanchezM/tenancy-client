@@ -35,6 +35,13 @@ const DeliveryDriverForm: FC<DeliveryDriverColumn> = ({ deliveryDriver }) => {
     defaultValues: {
       firstName: deliveryDriver?.firstName || '',
       lastName: deliveryDriver?.lastName || '',
+      contactInformation: {
+        email: deliveryDriver?.contactInformation?.email || '',
+        phoneNumbers: deliveryDriver?.contactInformation?.phoneNumbers || [''],
+        website: deliveryDriver?.contactInformation?.website || '',
+        facebook: deliveryDriver?.contactInformation?.facebook || '',
+        instagram: deliveryDriver?.contactInformation?.instagram || '',
+      },
     }
   });
 
@@ -59,14 +66,14 @@ const DeliveryDriverForm: FC<DeliveryDriverColumn> = ({ deliveryDriver }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <section className="flex items-center justify-between">
         <Heading title={title} description={description} />
-      </div>
+      </section>
       <Separator />
       <Form {...form}>
         <form className='m-auto' onSubmit={form.handleSubmit(handleOnDeliveryDriverSubmit)}>
-          <article className='space-y-12'>
-            <section className='border-b border-gray-900/10 pb-10'>
+          <section className='space-y-12'>
+            <article className='border-b border-gray-900/10 pb-10'>
               <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800 mt-4'>
                 Datos generales
               </h2>
@@ -91,9 +98,59 @@ const DeliveryDriverForm: FC<DeliveryDriverColumn> = ({ deliveryDriver }) => {
                   />
                 </div>
               </div>
-            </section>
-          </article>
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+            </article>
+            <article className='border-b border-gray-900/10 pb-10'>
+              <h2 className='text-xl font-medium pr-2 leading-5 text-gray-800'>
+                Información de contacto
+              </h2>
+              <p className='mt-1 text-sm leading-5 text-gray-600'>
+                Información para contactar el empleado
+              </p>
+              <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
+                <div className='col-span-full'>
+                  <FormField
+                    type='email'
+                    name='contactInformation.email'
+                    label='Correo'
+                    control={form.control}
+                  />
+                </div>
+                <div className='col-span-full'>
+                  <FormField
+                    type='text'
+                    name='contactInformation.phoneNumbers[0]'
+                    label='Telefono(s)'
+                    control={form.control}
+                  />
+                </div>
+                <div className='col-span-full'>
+                  <FormField
+                    type='text'
+                    control={form.control}
+                    name='contactInformation.website'
+                    label='Sitio web'
+                  />
+                </div>
+                <div className='col-span-full'>
+                  <FormField
+                    type='text'
+                    control={form.control}
+                    name='contactInformation.facebook'
+                    label='Facebook'
+                  />
+                </div>
+                <div className='col-span-full'>
+                  <FormField
+                    type='text'
+                    control={form.control}
+                    name='contactInformation.instagram'
+                    label='Instagram'
+                  />
+                </div>
+              </div>
+            </article>
+          </section>
+          <section className="mt-6 flex items-center justify-end gap-x-6">
             <Button
               type='button'
             >
@@ -104,7 +161,7 @@ const DeliveryDriverForm: FC<DeliveryDriverColumn> = ({ deliveryDriver }) => {
             >
               {action}
             </Button>
-          </div>
+          </section>
         </form>
       </Form>
     </>

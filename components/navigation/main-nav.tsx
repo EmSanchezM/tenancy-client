@@ -70,6 +70,12 @@ export function MainNav() {
       active: pathname === '/recipes',
       icon: <Home className="text-2xl" />
     },
+    {
+      href: '/printers',
+      label: 'Impresoras',
+      active: pathname === '/printers',
+      icon: <Home className="text-2xl" />
+    },
   ]
 
   return (

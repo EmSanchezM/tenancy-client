@@ -4,6 +4,7 @@ import { CustomerColumn } from "./_views/columns";
 import { CustomersClient } from "./_views/customers-table";
 
 export default async function Customers() {
+
   const { data: customers } = await getAllCustomers();
 
   const formattedCustomers: CustomerColumn[] = customers.map((item) => ({

@@ -37,3 +37,4 @@ export {
   UnitsOfMeasureFormSchema,
   type UnitsOfMeasureFormValues,
 } from "./units-measure.schema";
+export { PrinterFormSchema, type PrinterFormValues } from "./printer.schema";
