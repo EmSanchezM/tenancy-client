@@ -10,11 +10,16 @@ export interface ProfileUser {
 }
 
 export interface UserAuthenticate {
-  id: string;
+  id?: string;
   email?: string;
   username?: string;
-  roles: string[];
-  token: string;
+  roles?: string[];
+  token?: string;
+  branch?: { id: string; name: string };
+  sub?: string;
+  iat?: number;
+  exp?: number;
+  jti?: string;
 }
 
 export interface User {
@@ -27,5 +32,4 @@ export interface User {
   lastName: string;
   isActive: boolean;
   createdAt: string;
-  updatedAt: string;
 }

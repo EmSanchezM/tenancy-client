@@ -25,7 +25,7 @@ const options: NextAuthOptions = {
 
           if (!responseUser.success) throw new Error("Credentials not valid");
 
-          return responseUser.data;
+          return responseUser.data as any;
         } catch {
           throw new Error("Credentials not valid");
         }
@@ -34,7 +34,11 @@ const options: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      let t = {};
+      let u = {};
+      if (token) t = token;
+      if (user) u = user;
+      return { ...t, ...u };
     },
     async session({ session, token }) {
       session.user = token as any;
