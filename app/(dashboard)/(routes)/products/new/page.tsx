@@ -4,7 +4,7 @@ import { getAllCategories } from "@/lib/services/categories";
 import { SelectFormat } from "@/lib/models/select-format.model";
 
 export default async function CreateProduct() {
-  const { data: categories } = await getAllCategories();
+  const { data: categories } = await getAllCategories({ isMenu: true });
 
   const formattedCategories: SelectFormat[] = categories.map((item) => ({
     id: item.id,

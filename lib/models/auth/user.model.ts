@@ -10,12 +10,15 @@ export interface ProfileUser {
 }
 
 export interface UserAuthenticate {
-  id?: string;
-  email?: string;
+  id: string;
+  email: string;
   username?: string;
-  roles?: string[];
-  token?: string;
-  branch?: { id: string; name: string };
+  roles: string[];
+  token: string;
+  branch: { id: string; name: string };
+}
+
+export interface UserAuthenticateGuards extends UserAuthenticate {
   sub?: string;
   iat?: number;
   exp?: number;

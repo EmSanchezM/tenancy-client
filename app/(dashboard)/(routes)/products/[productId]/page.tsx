@@ -10,7 +10,7 @@ interface ProductParams {
 
 export default async function Product({ params }: ProductParams) {
   const { data: product } = await getProductById(params.productId);
-  const { data: categories } = await getAllCategories();
+  const { data: categories } = await getAllCategories({ isMenu: true });
 
   const formattedCategories: SelectFormat[] = categories.map((item) => ({
     id: item.id,

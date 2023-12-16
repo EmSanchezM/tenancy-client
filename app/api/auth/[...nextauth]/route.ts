@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { Login } from "@/lib/services/auth";
 
-const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -25,7 +25,7 @@ const options: NextAuthOptions = {
 
           if (!responseUser.success) throw new Error("Credentials not valid");
 
-          return responseUser.data as any;
+          return responseUser.data;
         } catch {
           throw new Error("Credentials not valid");
         }
@@ -38,10 +38,16 @@ const options: NextAuthOptions = {
       let u = {};
       if (token) t = token;
       if (user) u = user;
+
       return { ...t, ...u };
     },
     async session({ session, token }) {
-      session.user = token as any;
+      session.user = {
+        name: token?.username,
+        token: token?.token,
+        ...token,
+      } as any;
+
       return session;
     },
   },
@@ -51,6 +57,6 @@ const options: NextAuthOptions = {
   debug: process.env.NODE_ENV === "development",
 };
 
-const handler = NextAuth(options);
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

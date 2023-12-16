@@ -1,10 +1,10 @@
 import { apiPrivate, errorHandler } from "../api.service";
-import { Category } from "@/lib/models/category.model";
+import { Category, QueryParamsCategory } from "@/lib/models/category.model";
 import { CategoryFormValues } from "@/lib/validation-schemes/category.schema";
 
-const getAllCategories = async () => {
+const getAllCategories = async (params?: QueryParamsCategory) => {
   try {
-    const { data } = await apiPrivate.get<Category[]>("categories");
+    const { data } = await apiPrivate.get<Category[]>("categories", { params });
 
     return {
       ok: true,

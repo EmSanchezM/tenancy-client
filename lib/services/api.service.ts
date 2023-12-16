@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios";
-import { getSession } from "next-auth/react";
 
 import { codeMessage } from "../constants/codeMessage";
 import { HttpExceptionBody } from "../models/error-http.model";
+import { getUserSessionServer } from "./auth";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const tenantName = process.env.NEXT_PUBLIC_TENANT_NAME;
@@ -22,10 +22,10 @@ export const apiPrivate = axios.create({
 });
 
 apiPrivate.interceptors.request.use(async (config) => {
-  const session = await getSession();
+  const session = await getUserSessionServer();
 
   if (session) {
-    config.headers["Authorization"] = `Bearer ${session?.user.token}`;
+    config.headers["Authorization"] = `Bearer ${session?.token}`;
   }
 
   return config;
@@ -34,6 +34,7 @@ apiPrivate.interceptors.request.use(async (config) => {
 export const errorHandler = (error: any) => {
   const axiosError = error as AxiosError;
   const { response } = axiosError;
+  console.log("error", { axiosError });
 
   if (response && response.status) {
     const responseError = response.data as HttpExceptionBody;

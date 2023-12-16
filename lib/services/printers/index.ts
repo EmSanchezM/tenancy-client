@@ -5,13 +5,14 @@ import { PrinterFormValues } from "@/lib/validation-schemes/printer.schema";
 const getAllPrinters = async () => {
   try {
     const { data } = await apiPrivate.get<Printer[]>("printers");
-
+    console.log("printers", data);
     return {
       ok: true,
       data,
     };
   } catch (error: any) {
     const errorData = errorHandler(error);
+    console.log("error", errorData);
     throw { success: false, errorMessage: errorData.message };
   }
 };

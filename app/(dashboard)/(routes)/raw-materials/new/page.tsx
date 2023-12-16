@@ -6,7 +6,7 @@ import { getAllUnitsOfMeasure } from "@/lib/services/units-measure";
 import { SelectFormat } from "@/lib/models/select-format.model";
 
 export default async function CreateRawMaterial() {
-  const { data: categories } = await getAllCategories();
+  const { data: categories } = await getAllCategories({ isMenu: false });
   const { data: suppliers } = await getAllSuppliers();
   const { data: units } = await getAllUnitsOfMeasure();
 

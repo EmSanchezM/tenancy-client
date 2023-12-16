@@ -1,6 +1,14 @@
+import { getServerSession } from "next-auth";
 import { LoginRequest, UserAuthenticate } from "@/lib/models/auth";
 
 import { api, errorHandler } from "../api.service";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+export const getUserSessionServer = async () => {
+  const session = await getServerSession(authOptions);
+
+  return session?.user;
+};
 
 export const Login = async (payload: LoginRequest) => {
   try {

@@ -12,7 +12,7 @@ interface ProductParams {
 
 export default async function Product({ params }: ProductParams) {
   const { data: rawMaterial } = await getRawMaterialById(params.rawMaterialId);
-  const { data: categories } = await getAllCategories();
+  const { data: categories } = await getAllCategories({ isMenu: false });
   const { data: suppliers } = await getAllSuppliers();
   const { data: units } = await getAllUnitsOfMeasure();
 
@@ -30,7 +30,6 @@ export default async function Product({ params }: ProductParams) {
     id: item.id,
     name: item.name
   }));
-
 
   return (
     <main className="pt-20 md:pl-72 p-8">

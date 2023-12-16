@@ -7,3 +7,7 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface QueryParamsCategory {
+  isMenu?: boolean;
+}
