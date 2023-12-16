@@ -6,7 +6,7 @@ import { getAllProducts } from "@/lib/services/produts";
 import { SelectFormat } from "@/lib/models/select-format.model";
 
 export default async function CreateRecipe() {
-  const { data: categories } = await getAllCategories();
+  const { data: categories } = await getAllCategories({ isMenu: true });
   const { data: rawMaterials } = await getAllRawMaterials();
   const { data: products } = await getAllProducts();
 
