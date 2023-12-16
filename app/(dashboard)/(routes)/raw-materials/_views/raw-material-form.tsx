@@ -89,6 +89,9 @@ const RawMaterialForm: FC<RawMaterialFormProps> = ({ rawMaterial, categories, su
               </p>
               <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
                 <div className='sm:col-span-4'>
+                  <FormField type='barcode' name='barCode' label='Código de barra' control={form.control} />
+                </div>
+                <div className='sm:col-span-3'>
                   <FormField
                     type='select'
                     name='category'

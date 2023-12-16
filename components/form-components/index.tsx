@@ -6,12 +6,13 @@ import InputSwitch from "./input-switch";
 import InputSelect from "./input-select";
 import InputDate from "./input-date";
 import InputTextArea from "./input-textarea";
+import InputBarCodeField from "./input-barcode";
 
 interface FormFieldProps {
   control: Control<any>;
   label: string;
   name: string;
-  type: "text" | "number" | "email" | "switch" | "textarea" | "select" | "date";
+  type: "text" | "number" | "email" | "switch" | "textarea" | "select" | "date" | "barcode";
   items?: { id: string; name: string; }[];
 }
 
@@ -22,6 +23,11 @@ export const FormField: FC<FormFieldProps> = ({ type, label, name, items, contro
     case 'email':
       return (
         <InputField type={type} label={label} name={name} control={control} />
+      );
+
+    case 'barcode':
+      return (
+        <InputBarCodeField type={'text'} label={label} name={name} control={control} />
       );
     case 'textarea':
       return (

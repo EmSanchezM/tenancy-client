@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const RawMaterialFormSchema = z.object({
+  barCode: z.string().min(2),
   name: z.string().min(2),
   description: z.string().min(2),
   expirationDate: z.coerce.date(),
